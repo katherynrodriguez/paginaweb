@@ -7,6 +7,66 @@
     <link rel="stylesheet" href="buddy.css">
     <link rel="shortcut icon" href="logo arregladorepresentate.png">
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f8f8;
+        }
+
+        /* Encabezado */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Carrito de compras */
+        .carrito {
+            position: fixed;
+            left: 10px;
+            top: 100px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+
+        /* Botón de búsqueda */
+        .buscar-btn {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .buscar-btn:hover {
+            background-color: #cc5200;
+        }
+
+        /* Contenido principal */
+        .contenido {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+        }
             /* Estilos generales */
             * {
             margin: 0;
