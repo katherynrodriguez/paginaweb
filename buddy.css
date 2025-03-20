@@ -1,3 +1,12 @@
 body {
     background-color:#f0ccd9;
 }
+
+.conteiner{
+
+    display: flex;
+    width: 190px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+}
