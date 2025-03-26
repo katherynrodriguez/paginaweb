@@ -3,103 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Representate</title>
-    <link rel="stylesheet" href="buddy.css">
-    <link rel="shortcut icon" href="logo arregladorepresentate.png">
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Playfair, sans-serif;
-        }
-        /* Encabezado */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #f0ccd9;
-            padding: 45px 20px;
-            color: white;
-        }   
-
-        
-        .buscar-btn {
-            background-color: #ffffff;
-            color: #966586;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-       
-        /* Contenido principal */
-        .contenido {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-        }
-            /* Estilos generales */
-            * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        /* Estilos del contenido */
-        .contenido {
-            margin-top: 60px; /* Para evitar que el contenido quede debajo del menú */
-            padding: 20px;
-            text-align: center;
-            min-height: 70vh; /* Para mantener un buen espacio en la pantalla */
-        }
-
-        /* Estilos del footer */
-        .footer {
-            background-color: #f0ccd9;
-            color: #966586;
-            text-align: center;
-            padding: 15px 20px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
-    </style>
+    <title>Tienda Online</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-       <!-- Encabezado -->
-    <div class="header">
-
-        <button type="button" class="btn btn-primary"><i class="fa fa-user"></i> ¿Qué estás buscando?</button>
-
-    </div>
-    <!-- Carrito de compras -->
-    <div class="carrito">
-        🛒  (0)
-    </div>
-
-    <!-- Contenido principal -->
-     <div class="contenido">
-        <h1>Inicio   Productos    Contacto    Preguntas Frecuentes    Instagram </h1>
-        <p> MAS VENDIDOS</p>
-    </div>
-      
-      <!-- Menú fijo -->
-    <div class="menu">
-        Inicio   Productos    Contacto    Preguntas Frecuentes    Instagram
-    </div>
-
-  
-   
-
-    <!-- Footer -->
-    <div class="footer">
-        Representate
-    </div>  
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo de la empresa">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#categorias">Categorías</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
     
+    <section id="novedades">
+        <div class="banner">
+            <img src="novedad1.jpg" alt="Novedades">
+            <img src="novedad2.jpg" alt="Novedades">
+        </div>
+    </section>
+    
+    <main>
+        <section id="categorias">
+            <h2>Categorías de Productos</h2>
+            <div class="categoria">Categoría 1</div>
+            <div class="categoria">Categoría 2</div>
+        </section>
+        
+        <section id="productos">
+            <h2>Lista de Productos</h2>
+            <div id="productos-lista"></div>
+        </section>
+        
+        <section id="testimonios">
+            <h2>Lo que dicen nuestros clientes</h2>
+            <div class="testimonio">"Excelente calidad" - Cliente 1</div>
+            <img src="cliente1.jpg" alt="Cliente satisfecho">
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Tienda Online - Todos los derechos reservados</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("productos.php")
+                .then(response => response.json())
+                .then(data => {
+                    const productosLista = document.getElementById("productos-lista");
+                    data.forEach(producto => {
+                        const div = document.createElement("div");
+                        div.classList.add("producto");
+                        div.innerHTML = `<h3>${producto.nombre}</h3><p>${producto.descripcion}</p><p>Precio: $${producto.precio}</p>`;
+                        productosLista.appendChild(div);
+                    });
+                })
+                .catch(error => console.error("Error cargando productos", error));
+        });
+    </script>
 </body>
 </html>
