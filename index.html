@@ -101,65 +101,40 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="logo arregladorepresentate.png" alt="Logo de la empresa">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#productos">Productos</a></li>
-                <li><a href="#categorias">Categorías</a></li>
-                <li><a href="#testimonios">Testimonios</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <section id="novedades">
-        <div class="banner">
-            <img src="novedad1.jpg" alt="Novedades">
-            <img src="novedad2.jpg" alt="Novedades">
-        </div>
-    </section>
-    
-    <main>
-        <section id="categorias">
-            <h2>Categorías de Productos</h2>
-            <div class="categoria">Categoría 1</div>
-            <div class="categoria">Categoría 2</div>
-        </section>
+       <!-- Encabezado -->
+    <div class="header">
+        <div class="logo"></div>
         
-        <section id="productos">
-            <h2>Lista de Productos</h2>
-            <div id="productos-lista"></div>
-        </section>
-        
-        <section id="testimonios">
-            <h2>Lo que dicen nuestros clientes</h2>
-            <div class="testimonio">"Excelente calidad" - Cliente 1</div>
-            <img src="cliente1.jpg" alt="Cliente satisfecho">
-        </section>
-    </main>
+        <button type="button" class="btn btn-primary"><i class="fa fa-user"></i> ¿Qué estás buscando?</button>
+
+    </div>
+
+    <!-- Carrito de compras -->
+    <div class="carrito">
+        🛒  (0)
+    </div>
+
+    <!-- Contenido principal -->
+    < <div class="contenido">
+        <h1>Inicio   Productos    Contacto    Preguntas Frecuentes    Instagram </h1>
+        <p> MAS VENDIDOS</p>
+    </div>
+      
+      <!-- Menú fijo -->
+    <div class="menu">
+        Inicio   Productos    Contacto    Preguntas Frecuentes    Instagram
+    </div>
+
+  
+   
+
+    <!-- Footer -->
+    <div class="footer">
+        Representate
+    </div>  }
+      }
+      
     
-    <footer>
-        <p>&copy; 2025 Tienda Online - Todos los derechos reservados</p>
-    </footer>
     
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch("productos.php")
-                .then(response => response.json())
-                .then(data => {
-                    const productosLista = document.getElementById("productos-lista");
-                    data.forEach(producto => {
-                        const div = document.createElement("div");
-                        div.classList.add("producto");
-                        div.innerHTML = `<h3>${producto.nombre}</h3><p>${producto.descripcion}</p><p>Precio: $${producto.precio}</p>`;
-                        productosLista.appendChild(div);
-                    });
-                })
-                .catch(error => console.error("Error cargando productos", error));
-        });
-    </script>
 </body>
 </html>
