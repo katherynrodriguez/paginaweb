@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 </head>
 <body>
 
@@ -31,8 +34,8 @@
 
   <section class="mas-vendidos">
     <h2>MÁS VENDIDOS</h2>
-    <div class="productos">
-      <!-- Productos dinámicos desde JS o Backend -->
+    <div class="productos" id="lista-productos">
+      <!-- Productos dinámicos desde Firebase -->
     </div>
   </section>
 
@@ -68,18 +71,6 @@
     </div>
   </section>
 
-  <section class="inventario">
-    <h2>Inventario</h2>
-    <table id="tabla-inventario">
-      <thead>
-        <tr><th>Producto</th><th>Stock</th><th>Precio</th><th>Acciones</th></tr>
-      </thead>
-      <tbody>
-        <!-- Datos se llenan dinámicamente -->
-      </tbody>
-    </table>
-  </section>
-
   <section class="carrito" id="carrito">
     <h2>Carrito</h2>
     <div id="contenido-carrito"></div>
@@ -98,33 +89,47 @@
   <a href="https://wa.me/573001112222" class="whatsapp-float" target="_blank">💬</a>
 
   <script>
-    const inventario = [
-      { producto: 'Shots Mickey', stock: 10, precio: 35000 },
-      { producto: 'Vaso One Piece', stock: 7, precio: 30000 }
-    ];
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_AUTH_DOMAIN",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_STORAGE_BUCKET",
+      messagingSenderId: "TU_MESSAGING_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
 
-    function cargarInventario() {
-      const tbody = document.querySelector('#tabla-inventario tbody');
-      tbody.innerHTML = '';
-      inventario.forEach(item => {
-        tbody.innerHTML += `<tr><td>${item.producto}</td><td>${item.stock}</td><td>$${item.precio}</td><td><button onclick=\"eliminarProducto('${item.producto}')\">Eliminar</button></td></tr>`;
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    async function cargarProductos() {
+      const snapshot = await db.collection("productos").get();
+      const lista = document.getElementById("lista-productos");
+      lista.innerHTML = "";
+      snapshot.forEach(doc => {
+        const prod = doc.data();
+        lista.innerHTML += `<div><h4>${prod.nombre}</h4><p>$${prod.precio}</p><button onclick='agregarAlCarrito("${doc.id}")'>Agregar</button></div>`;
       });
     }
 
-    function eliminarProducto(nombre) {
-      const index = inventario.findIndex(p => p.producto === nombre);
-      if (index !== -1) {
-        inventario.splice(index, 1);
-        cargarInventario();
-      }
+    let carrito = [];
+    function agregarAlCarrito(id) {
+      carrito.push(id);
+      renderizarCarrito();
+    }
+
+    function renderizarCarrito() {
+      const div = document.getElementById("contenido-carrito");
+      div.innerHTML = carrito.map(id => `<p>${id}</p>`).join("");
     }
 
     function procesarCompra() {
-      alert('Procesando compra...');
-      // Aquí iría lógica con API de pagos
+      alert("Compra procesada: " + carrito.join(", "));
+      carrito = [];
+      renderizarCarrito();
     }
 
-    document.addEventListener('DOMContentLoaded', cargarInventario);
+    document.addEventListener("DOMContentLoaded", cargarProductos);
   </script>
 
   <style>
@@ -146,9 +151,9 @@
       text-decoration: none;
       font-size: 20px;
     }
+    .buscador { text-align: center; padding: 10px; }
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 8px; border: 1px solid #ccc; }
-    .buscador { text-align: center; padding: 10px; }
   </style>
 
 </body>
