@@ -41,20 +41,18 @@
 
   <section class="categorias">
     <h2>Categorías</h2>
-    <ul>
-      <li>Vasos
-        <ul>
-          <li>Tipo lata</li>
-          <li>Cónicos</li>
-        </ul>
-      </li>
-      <li>Shots
-        <ul>
-          <li>Silueta negra</li>
-          <li>Full color</li>
-        </ul>
-      </li>
-    </ul>
+    <div class="productos">
+      <div class="categoria">
+        <img src="vaso.jpg" alt="Vasos">
+        <h3>Vasos</h3>
+        <p>Tipo lata, Cónicos</p>
+      </div>
+      <div class="categoria">
+        <img src="shots.jpg" alt="Shots">
+        <h3>Shots</h3>
+        <p>Silueta negra, Full color</p>
+      </div>
+    </div>
   </section>
 
   <section class="video-ref">
@@ -89,7 +87,6 @@
   <a href="https://wa.me/573001112222" class="whatsapp-float" target="_blank">💬</a>
 
   <script>
-    // Firebase config
     const firebaseConfig = {
       apiKey: "TU_API_KEY",
       authDomain: "TU_AUTH_DOMAIN",
@@ -108,7 +105,8 @@
       lista.innerHTML = "";
       snapshot.forEach(doc => {
         const prod = doc.data();
-        lista.innerHTML += `<div><h4>${prod.nombre}</h4><p>$${prod.precio}</p><button onclick='agregarAlCarrito("${doc.id}")'>Agregar</button></div>`;
+        const stock = prod.stock > 0 ? "Disponible" : "Agotado";
+        lista.innerHTML += `<div><h4>${prod.nombre}</h4><p>${stock}</p><button onclick='agregarAlCarrito("${doc.id}")' ${prod.stock <= 0 ? "disabled" : ""}>Agregar</button></div>`;
       });
     }
 
@@ -139,7 +137,9 @@
     nav ul { display: flex; justify-content: center; list-style: none; padding: 0; }
     nav ul li { margin: 0 15px; cursor: pointer; }
     .productos, .carrusel { display: flex; overflow-x: auto; gap: 10px; padding: 10px; }
-    .categorias ul ul { margin-left: 20px; }
+    .categoria { text-align: center; width: 150px; }
+    .categoria img { width: 100%; height: auto; border-radius: 10px; }
+    .buscador { text-align: center; padding: 10px; }
     .whatsapp-float {
       position: fixed;
       bottom: 20px;
@@ -151,9 +151,6 @@
       text-decoration: none;
       font-size: 20px;
     }
-    .buscador { text-align: center; padding: 10px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 8px; border: 1px solid #ccc; }
   </style>
 
 </body>
