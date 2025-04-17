@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa de 100 Puestos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .puesto {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .puesto.seleccionado {
+            background: #4caf50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Rifa de 100 Puestos</h2>
+        <div class="grid" id="grid">
+        </div>
+    </div>
+    <script>
+        const grid = document.getElementById("grid");
+        for (let i = 1; i <= 100; i++) {
+            let puesto = document.createElement("div");
+            puesto.classList.add("puesto");
+            puesto.textContent = i;
+            puesto.addEventListener("click", () => {
+                puesto.classList.toggle("seleccionado");
+            });
+            grid.appendChild(puesto);
+        }
+    </script>
+</body>
+</html>
