@@ -3,155 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A TU STILO - Tienda Personalizada</title>
+  <title>Tienda Recuérdame</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-  <header>
-    <div class="top-bar">TIEMPO DE ENTREGA 1-6 DÍAS HÁBILES DESPUÉS DE VERIFICAR EL PAGO</div>
-    <div class="logo"> <img src="logo.svg" alt="Recuérdame"> </div>
-    <nav>
-      <ul>
-        <li>Inicio</li>
-        <li>Productos</li>
-        <li>Categorías</li>
-        <li>Testimonios</li>
-        <li>Contacto</li>
-        <li><a href="#carrito">🛒</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section class="buscador">
-    <input type="text" placeholder="¿Qué estás buscando?">
-  </section>
-
-  <section class="mas-vendidos">
-    <h2>MÁS VENDIDOS</h2>
-    <div class="productos" id="lista-productos">
-      <!-- Productos dinámicos desde Firebase -->
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo">Recuérdame</div>
+    <div class="cart" id="cart">
+      🛒<span id="cart-count">0</span>
     </div>
-  </section>
+  </nav>
 
-  <section class="categorias">
+  <!-- Categorías con imagen -->
+  <section id="categorias" class="categorias">
     <h2>Categorías</h2>
-    <div class="productos">
-      <div class="categoria">
-        <img src="vaso.jpg" alt="Vasos">
-        <h3>Vasos</h3>
-        <p>Tipo lata, Cónicos</p>
-      </div>
-      <div class="categoria">
-        <img src="shots.jpg" alt="Shots">
-        <h3>Shots</h3>
-        <p>Silueta negra, Full color</p>
-      </div>
+    <div class="categoria-item">
+      <img src="img/shots.jpg" alt="Shots">
+      <p>Shots</p>
+    </div>
+    <div class="categoria-item">
+      <img src="img/mugs.jpg" alt="Mugs">
+      <p>Mugs</p>
+    </div>
+    <div class="categoria-item">
+      <img src="img/llaveros.jpg" alt="Llaveros">
+      <p>Llaveros</p>
     </div>
   </section>
 
-  <section class="video-ref">
-    <h2>Video de referencia</h2>
-    <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+  <!-- Productos -->
+  <section id="productos"></section>
+
+  <!-- Carrito -->
+  <section id="carrito">
+    <h2>Tu carrito</h2>
+    <ul id="carrito-lista"></ul>
   </section>
 
-  <section class="testimonios">
-    <h2>Testimonios</h2>
-    <div class="carrusel">
-      <img src="testimonio1.jpg" alt="Cliente feliz">
-      <img src="testimonio2.jpg" alt="Cliente feliz">
-      <img src="testimonio3.jpg" alt="Cliente feliz">
-    </div>
-  </section>
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/573001234567" class="whatsapp-float" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:48px;height:48px;">
+  </a>
 
-  <section class="carrito" id="carrito">
-    <h2>Carrito</h2>
-    <div id="contenido-carrito"></div>
-    <button onclick="procesarCompra()">Procesar pago</button>
-  </section>
-
+  <!-- Contacto en pie de página -->
   <footer>
-    <div class="redes">
-      <a href="https://instagram.com" target="_blank">Instagram</a>
+    <div class="contacto">
+      <p>Síguenos:</p>
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+      <p>Correo: contacto@recuerdame.com</p>
+      <p>Teléfono: +57 300 123 4567</p>
     </div>
-    <div class="info">
-      <p>Copyright Recuérdame - 2025</p>
-    </div>
+    <p>&copy; 2025 Recuérdame. Todos los derechos reservados.</p>
   </footer>
 
-  <a href="https://wa.me/573001112222" class="whatsapp-float" target="_blank">💬</a>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "TU_API_KEY",
-      authDomain: "TU_AUTH_DOMAIN",
-      projectId: "TU_PROJECT_ID",
-      storageBucket: "TU_STORAGE_BUCKET",
-      messagingSenderId: "TU_MESSAGING_SENDER_ID",
-      appId: "TU_APP_ID"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    async function cargarProductos() {
-      const snapshot = await db.collection("productos").get();
-      const lista = document.getElementById("lista-productos");
-      lista.innerHTML = "";
-      snapshot.forEach(doc => {
-        const prod = doc.data();
-        const stock = prod.stock > 0 ? "Disponible" : "Agotado";
-        lista.innerHTML += `<div><h4>${prod.nombre}</h4><p>${stock}</p><button onclick='agregarAlCarrito("${doc.id}")' ${prod.stock <= 0 ? "disabled" : ""}>Agregar</button></div>`;
-      });
-    }
-
-    let carrito = [];
-    function agregarAlCarrito(id) {
-      carrito.push(id);
-      renderizarCarrito();
-    }
-
-    function renderizarCarrito() {
-      const div = document.getElementById("contenido-carrito");
-      div.innerHTML = carrito.map(id => `<p>${id}</p>`).join("");
-    }
-
-    function procesarCompra() {
-      alert("Compra procesada: " + carrito.join(", "));
-      carrito = [];
-      renderizarCarrito();
-    }
-
-    document.addEventListener("DOMContentLoaded", cargarProductos);
-  </script>
-
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header, footer { background: #F0CCD9; padding: 10px; text-align: center; }
-    .logo img { height: 60px; }
-    nav ul { display: flex; justify-content: center; list-style: none; padding: 0; }
-    nav ul li { margin: 0 15px; cursor: pointer; }
-    .productos, .carrusel { display: flex; overflow-x: auto; gap: 10px; padding: 10px; }
-    .categoria { text-align: center; width: 150px; }
-    .categoria img { width: 100%; height: auto; border-radius: 10px; }
-    .buscador { text-align: center; padding: 10px; }
-    .whatsapp-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 50%;
-      text-decoration: none;
-      font-size: 20px;
-    }
-  </style>
-
+  <script src="script.js"></script>
 </body>
 </html>
