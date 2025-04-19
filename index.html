@@ -3,167 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recuérdame - Tienda Personalizada</title>
+  <title>Tienda A TU STILO </title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-</head>
-<body>
-
-  <header>
-    <div class="top-bar">TIEMPO DE ENTREGA 1-6 DÍAS HÁBILES DESPUÉS DE VERIFICAR EL PAGO</div>
-    <div class="logo"> <img src="logo.svg" alt="Recuérdame"> </div>
-    <nav>
-      <ul>
-        <li>Inicio</li>
-        <li>Productos</li>
-        <li>Categorías</li>
-        <li>Testimonios</li>
-        <li>Contacto</li>
-        <li style="position: absolute; top: 10px; right: 20px;"><a href="#carrito">🛒</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section class="buscador">
-    <input type="text" placeholder="¿Qué estás buscando?">
-  </section>
-
-  <section class="mas-vendidos">
-    <h2>MÁS VENDIDOS</h2>
-    <div class="productos" id="lista-productos">
-      <!-- Productos dinámicos desde Firebase -->
-    </div>
-  </section>
-
-  <section class="categorias">
-    <h2>Categorías</h2>
-    <div class="productos">
-      <div class="categoria">
-        <img src="vaso.jpg" alt="Vasos">
-        <h3>Vasos</h3>
-        <p>Tipo lata, Cónicos</p>
-      </div>
-      <div class="categoria">
-        <img src="shots.jpg" alt="Shots">
-        <h3>Shots</h3>
-        <p>Silueta negra, Full color</p>
-      </div>
-      <div class="categoria">
-        <img src="mugs.jpg" alt="Mugs">
-        <h3>Mugs</h3>
-        <p>Personalizados mágicos y clásicos</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="video-ref">
-    <h2>Video de referencia</h2>
-    <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-  </section>
-
-  <section class="testimonios">
-    <h2>Testimonios</h2>
-    <div class="carrusel">
-      <img src="testimonio1.jpg" alt="Cliente feliz">
-      <img src="testimonio2.jpg" alt="Cliente feliz">
-      <img src="testimonio3.jpg" alt="Cliente feliz">
-    </div>
-  </section>
-
-  <section class="carrito" id="carrito">
-    <h2>Carrito</h2>
-    <div id="contenido-carrito"></div>
-    <button onclick="procesarCompra()">Procesar pago</button>
-  </section>
-
-  <footer>
-    <div class="redes">
-      <a href="https://instagram.com" target="_blank">Instagram</a>
-      <a href="mailto:contacto@recuerdame.com">Correo: contacto@recuerdame.com</a>
-      <a href="tel:+573001112222">Celular: +57 300 111 2222</a>
-    </div>
-    <div class="info">
-      <p>Copyright Recuérdame - 2025</p>
-    </div>
-  </footer>
-
-  <a href="https://wa.me/573001112222" class="whatsapp-float" target="_blank">💬</a>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "TU_API_KEY",
-      authDomain: "TU_AUTH_DOMAIN",
-      projectId: "TU_PROJECT_ID",
-      storageBucket: "TU_STORAGE_BUCKET",
-      messagingSenderId: "TU_MESSAGING_SENDER_ID",
-      appId: "TU_APP_ID"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    async function cargarProductos() {
-      const snapshot = await db.collection("productos").get();
-      const lista = document.getElementById("lista-productos");
-      lista.innerHTML = "";
-      snapshot.forEach(doc => {
-        const prod = doc.data();
-        const stock = prod.stock > 0 ? "Disponible" : "Agotado";
-        lista.innerHTML += `<div><h4>${prod.nombre}</h4><p>${stock}</p><button onclick='agregarAlCarrito("${doc.id}")' ${prod.stock <= 0 ? "disabled" : ""}>Agregar</button></div>`;
-      });
-    }
-
-    let carrito = [];
-    async function agregarAlCarrito(id) {
-      const doc = await db.collection("productos").doc(id).get();
-      if (doc.exists) {
-        const data = doc.data();
-        carrito.push({ id: id, nombre: data.nombre, precio: data.precio });
-        renderizarCarrito();
-      }
-    }
-
-    function renderizarCarrito() {
-      const div = document.getElementById("contenido-carrito");
-      div.innerHTML = carrito.map(p => `<p>${p.nombre} - $${p.precio}</p>`).join("");
-    }
-
-    function procesarCompra() {
-      alert("Compra procesada: " + carrito.map(p => p.nombre).join(", "));
-      carrito = [];
-      renderizarCarrito();
-    }
-
-    document.addEventListener("DOMContentLoaded", cargarProductos);
-  </script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header, footer { background: #F0CCD9; padding: 10px; text-align: center; position: relative; }
-    .logo img { height: 60px; }
-    nav ul { display: flex; justify-content: center; list-style: none; padding: 0; position: relative; }
-    nav ul li { margin: 0 15px; cursor: pointer; }
-    .productos, .carrusel { display: flex; overflow-x: auto; gap: 10px; padding: 10px; }
-    .categoria { text-align: center; width: 150px; }
-    .categoria img { width: 100%; height: auto; border-radius: 10px; }
-    .buscador { text-align: center; padding: 10px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #fff;
+      color: #000;
+    }
+    .navbar {
+      background-color: #F0CCD9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #966586;
+    }
+    .cart {
+      font-size: 1.2em;
+      color: #000;
+    }
+    .categorias {
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .categoria-item {
+      display: inline-block;
+      margin: 10px;
+      text-align: center;
+    }
+    .categoria-item img {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .swiper {
+      width: 100%;
+      height: 300px;
+      margin: 20px 0;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .whatsapp-float {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #25D366;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 50%;
-      text-decoration: none;
-      font-size: 20px;
+      z-index: 100;
     }
-    footer .redes a { display: block; margin: 5px 0; color: black; text-decoration: none; }
+    footer {
+      background-color: #F0CCD9;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+    }
+    .contacto a {
+      margin: 0 10px;
+      color: #000;
+    }
   </style>
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo">Recuérdame</div>
+    <div class="cart" id="cart">
+      🛒<span id="cart-count">0</span>
+    </div>
+  </nav>
 
+  <!-- Carusel de imágenes -->
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="img/banner1.jpg" alt="Banner 1"></div>
+      <div class="swiper-slide"><img src="img/banner2.jpg" alt="Banner 2"></div>
+      <div class="swiper-slide"><img src="img/banner3.jpg" alt="Banner 3"></div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+  <!-- Categorías con imagen -->
+  <section id="categorias" class="categorias">
+    <h2>Categorías</h2>
+    <div class="categoria-item">
+      <img src="img/shots.jpg" alt="Shots">
+      <p>Shots</p>
+    </div>
+    <div class="categoria-item">
+      <img src="img/mugs.jpg" alt="Mugs">
+      <p>Mugs</p>
+    </div>
+    <div class="categoria-item">
+      <img src="img/llaveros.jpg" alt="Llaveros">
+      <p>Llaveros</p>
+    </div>
+  </section>
+
+  <!-- Productos -->
+  <section id="productos"></section>
+
+  <!-- Carrito -->
+  <section id="carrito">
+    <h2>Tu carrito</h2>
+    <ul id="carrito-lista"></ul>
+  </section>
+
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/573001234567" class="whatsapp-float" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:48px;height:48px;">
+  </a>
+
+  <!-- Contacto en pie de página -->
+  <footer>
+    <div class="contacto">
+      <p>Síguenos:</p>
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+      <p>Correo: contacto@recuerdame.com</p>
+      <p>Teléfono: +57 300 123 4567</p>
+    </div>
+    <p>&copy; 2025 Recuérdame. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+    });
+  </script>
 </body>
 </html>
