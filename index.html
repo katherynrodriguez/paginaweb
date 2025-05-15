@@ -101,17 +101,32 @@
     <div class="swiper-button-next"></div>
   </div>
 
-  <!-- Carusel de imágenes categorias-->
-  <div class="categorias">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide"><img src="shots color.jpeg" alt="Shots">
-      <p>Shots</p></div>
-      <div class="swiper-slide"><img src="img/banner2.jpg" alt="Banner 2"></div>
-      <div class="swiper-slide"><img src="img/banner3.jpg" alt="Banner 3"></div>
-    </div>
-    <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+  <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
+<!-- Categorías Swiper -->
+<div class="swiper-container categorias-swiper">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">Shots</div>
+    <div class="swiper-slide">Shots color</div>
+    <div class="swiper-slide">Shots full color</div>
+    <div class="swiper-slide">Mugs</div>
+    <div class="swiper-slide">Mugs magicos</div>
+    <!-- Agrega más categorías -->
+  </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+<!-- Inicializar Swiper -->
+<script>
+  const swiper = new Swiper('.categorias-swiper', {
+    slidesPerView: 3,
+    spaceBetween: 10,
+    freeMode: true,
+  });
+</script>
   </div>
 
   <!-- Categorías con imagen -->
